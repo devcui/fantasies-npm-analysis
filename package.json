@@ -11,10 +11,10 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/devcui/fantasies.git"
+        "url": "git+https://github.com/devcui/fantasies-npm-analysis.git"
     },
     "bugs": {
-        "url": "https://github.com/devcui/fantasies/issues"
+        "url": "https://github.com/devcui/fantasies-npm-analysis/issues"
     },
     "sponsor": {
         "url": "https://github.com/sponsors/devcui"
