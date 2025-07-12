@@ -57,7 +57,7 @@
         "publish": "vsce publish --no-dependencies",
         "pack": "vsce package --no-dependencies",
         "typecheck": "tsc --noEmit",
-        "release": "bumpp patch   && npm run publish --next"
+        "release": "bumpp patch"
     },
     "dependencies": {
         "node": "^24.4.0",
@@ -65,7 +65,7 @@
     },
     "devDependencies": {
         "vscode": "^1.1.37",
-        "vsce": "^1.102.0",
+        "vsce": "2.15.0",
         "@types/vscode": "^1.1.37",
         "@types/js-yaml": "^4.0.9",
         "tsup": "^8.5.0",
