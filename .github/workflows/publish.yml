@@ -1,0 +1,37 @@
+name: Publish VS Code Extension
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Check if current commit has a tag
+      id: check-tag
+      run: |
+        if git describe --exact-match --tags HEAD > /dev/null 2>&1; then
+          echo "has-tag=true" >> $GITHUB_OUTPUT
+          echo "tag-name=$(git describe --exact-match --tags HEAD)" >> $GITHUB_OUTPUT
+        else
+          echo "has-tag=false" >> $GITHUB_OUTPUT
+        fi
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Install vsce
+      run: npm install -g vsce
+
+    - name: Publish to Visual Studio Code Marketplace
+      run: vsce publish
+      env:
+        VSCE_PAT: ${{ secrets.VSCE_PAT }}

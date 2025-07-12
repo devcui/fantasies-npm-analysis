@@ -1,7 +1,7 @@
 {
     "name": "fantasies-npm-analysis",
     "version": "0.0.0",
-    "displayName": "NPM dependencies Analysis",
+    "displayName": "NPM Dependencies Analysis",
     "description": "A VS Code extension for analyzing and managing NPM dependencies.",
     "private": true,
     "publisher": "devcui",
