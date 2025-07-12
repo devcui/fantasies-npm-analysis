@@ -166,19 +166,27 @@ export class NpmAnalysis {
     fetchDependency(dependency: Dependency) {
         this.logger.info(`${dependency.path}:${dependency.line}:${dependency.name}:${dependency.version} awaiting for fetch...`);
         
-        // 使用包名作为键检查是否已经获取过最新版本信息
-        const cacheKey = dependency.name;
-        const cached = this.cache.get(cacheKey);
+        // 只使用唯一键（包含路径和行号）
+        const uniqueKey = `${dependency.name}:${dependency.path}:${dependency.line}`;
+        const cached = this.cache.get(uniqueKey);
         
         if (cached && cached.fetched && cached.latest) {
-            // 如果已经有缓存信息，复制最新版本到当前依赖
+            this.dependency$.fire({
+                type: 'fetched',
+                payload: cached
+            });
+            return;
+        }
+        
+        // 检查是否已经为其他位置的同名包获取过版本信息
+        const existingEntry = Array.from(this.cache.values()).find(dep => 
+            dep.name === dependency.name && dep.fetched && dep.latest
+        );
+        
+        if (existingEntry) {
             dependency.fetched = true;
-            dependency.latest = cached.latest;
-            
-            // 为当前依赖创建唯一键（包含路径和行号）
-            const uniqueKey = `${dependency.name}:${dependency.path}:${dependency.line}`;
+            dependency.latest = existingEntry.latest;
             this.cache.set(uniqueKey, dependency);
-            
             this.dependency$.fire({
                 type: 'fetched',
                 payload: dependency
@@ -194,11 +202,7 @@ export class NpmAnalysis {
                 dependency.fetched = true;
                 dependency.latest = data.version;
                 
-                // 保存包的最新版本信息（以包名为键）
-                this.cache.set(cacheKey, { ...dependency });
-                
-                // 保存特定位置的依赖信息（以唯一键）
-                const uniqueKey = `${dependency.name}:${dependency.path}:${dependency.line}`;
+                // 只保存唯一键的依赖信息
                 this.cache.set(uniqueKey, dependency);
                 
                 this.dependency$.fire({ type: 'fetched', payload: dependency });
@@ -235,10 +239,8 @@ export class NpmAnalysis {
         commands.registerCommand('npm-analysis.upgradeDependency', () => {
             this.logger.info(`cache size: ${this.cache.size}`);
             
-            // 只获取包含路径和行号的依赖项（过滤掉仅包名的缓存项）
-            const dependenciesToUpgrade = Array.from(this.cache.entries())
-                .filter(([key, dep]) => key.includes(':') && key.includes('/')) // 有路径和行号的键
-                .map(([_, dep]) => dep)
+            // 获取所有需要升级的依赖项
+            const dependenciesToUpgrade = Array.from(this.cache.values())
                 .filter(dep => 
                     dep.fetched && 
                     dep.latest && 
@@ -305,8 +307,7 @@ export class NpmAnalysis {
                             // 更新缓存中的版本信息，避免重复升级
                             dependency.version = newVersionWithPrefix;
                             
-                            // 更新两个缓存：包名缓存和唯一键缓存
-                            this.cache.set(dependency.name, { ...dependency });
+                            // 只更新唯一键缓存
                             const uniqueKey = `${dependency.name}:${dependency.path}:${dependency.line}`;
                             this.cache.set(uniqueKey, dependency);
                         }
