@@ -1,0 +1,80 @@
+{
+    "name": "fantasies-npm-analysis",
+    "version": "0.0.0",
+    "displayName": "NPM dependencies Analysis",
+    "description": "A VS Code extension for analyzing and managing NPM dependencies.",
+    "private": true,
+    "publisher": "devcui",
+    "author": {
+        "name": "devcui",
+        "email": "devcui@outlook.com"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/devcui/fantasies.git"
+    },
+    "bugs": {
+        "url": "https://github.com/devcui/fantasies/issues"
+    },
+    "sponsor": {
+        "url": "https://github.com/sponsors/devcui"
+    },
+    "categories": [
+        "Other"
+    ],
+    "engines": {
+        "vscode": "1.102.0"
+    },
+    "files": [
+        "LICENSE",
+        "dist/*",
+        "assets/*"
+    ],
+    "activationEvents": [
+        "onStartupFinished"
+    ],
+    "contributes": {
+        "commands": [
+            {
+                "command": "npm-analysis.upgradeDependency",
+                "title": "升级所有依赖",
+                "category": "NPM Analysis"
+            },
+            {
+                "command": "npm-analysis.upgradeSpecificDependency",
+                "title": "升级特定依赖",
+                "category": "NPM Analysis"
+            }
+        ],
+        "configuration": {}
+    },
+    "main": "./dist/index.js",
+    "icon": "assets/logo.png",
+    "scripts": {
+        "build": "tsup src/index.ts --dts --minify --external=vscode",
+        "dev": "npm run build --watch --sourcemap",
+        "prepublish": "npm run build",
+        "publish": "vsce publish --no-dependencies",
+        "pack": "vsce package --no-dependencies",
+        "typecheck": "tsc --noEmit",
+        "release": "bumpp patch   && npm run publish --next"
+    },
+    "dependencies": {
+        "node": "^24.4.0",
+        "js-yaml": "^4.1.0"
+    },
+    "devDependencies": {
+        "vscode": "^1.1.37",
+        "vsce": "^1.102.0",
+        "@types/vscode": "^1.1.37",
+        "@types/js-yaml": "^4.0.9",
+        "tsup": "^8.5.0",
+        "typescript": "^5.8.3",
+        "node": "^24.4.0",
+        "@types/node": "^24.0.13",
+        "esno": "^4.8.0",
+        "vite": "^7.0.4",
+        "vitest": "^3.2.4",
+        "bumpp": "^10.2.0"
+    }
+}
