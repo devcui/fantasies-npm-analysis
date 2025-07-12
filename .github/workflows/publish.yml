@@ -19,6 +19,12 @@ jobs:
     - name: Install dependencies
       run: npm install
 
+    - name: Build the extension
+      run: npm run build
+
+    - name: Package the extension
+      run: npm run pack
+
     - name: Publish to Visual Studio Code Marketplace
       run: npm run-script  publish
       env:
