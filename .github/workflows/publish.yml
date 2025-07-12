@@ -19,10 +19,7 @@ jobs:
     - name: Install dependencies
       run: npm install
 
-    - name: Install vsce
-      run: npm install -g vsce
-
     - name: Publish to Visual Studio Code Marketplace
-      run: vsce publish
+      run: npm run-script  publish
       env:
         VSCE_PAT: ${{ secrets.VSCE_PAT }}

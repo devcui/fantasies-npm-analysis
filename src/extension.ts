@@ -17,7 +17,7 @@ export class NpmAnalysis {
 
     constructor() {
         this.logger = new Logger();
-        this.logger.show();
+        // this.logger.show();
         this.file$ = new EventEmitter<{ path: string; type: string }>();
         this.dependency$ = new EventEmitter<{ type: string; payload: Dependency }>();
     }
