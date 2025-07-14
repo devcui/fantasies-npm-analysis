@@ -29,6 +29,6 @@ jobs:
       run: npm run pack
 
     - name: Publish to Visual Studio Code Marketplace
-      run: vsce publish ./fantasies-npm-analysis.vsix
+      run: vsce publish --packagePath ./fantasies-npm-analysis.vsix
       env:
         VSCE_PAT: ${{ secrets.VSCE_PAT }}
