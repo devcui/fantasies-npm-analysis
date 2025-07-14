@@ -1,6 +1,6 @@
 {
     "name": "fantasies-npm-analysis",
-    "version": "0.0.7",
+    "version": "0.0.8",
     "displayName": "NPM Dependencies Analysis",
     "description": "A VS Code extension for analyzing and managing NPM dependencies.",
     "private": true,
@@ -54,15 +54,15 @@
         "build": "tsup src/index.ts --dts --minify --external=vscode",
         "dev": "npm run build --watch --sourcemap",
         "prepublish": "npm run build",
-        "publish": "vsce publish --no-dependencies",
-        "pack": "vsce package --no-dependencies",
+        "pack": "vsce package",
         "typecheck": "tsc --noEmit",
         "release": "bumpp patch"
     },
-    "dependencies": {
-        "node": "^24.4.0",
-        "js-yaml": "^4.1.0"
+    "peerDependencies": {
+        "js-yaml": "^4.1.0",
+        "node": "^24.4.0"
     },
+    "dependencies": { },
     "devDependencies": {
         "vscode": "^1.1.37",
         "vsce": "2.15.0",
