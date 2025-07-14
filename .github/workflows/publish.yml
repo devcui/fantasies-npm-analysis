@@ -22,10 +22,14 @@ jobs:
     - name: Build the extension
       run: npm run build
 
+    - name: Get tag version
+      id: get_tag
+      run: echo "TAG=${GITHUB_REF##*/}" | sed 's/^v//' >> $GITHUB_ENV
+
     - name: Package the extension
       run: npm run pack
 
     - name: Publish to Visual Studio Code Marketplace
-      run: npm run-script  publish
+      run: vsce  publish  ./fantasies-npm-analysis-${{ env.TAG }}.vsix
       env:
         VSCE_PAT: ${{ secrets.VSCE_PAT }}
