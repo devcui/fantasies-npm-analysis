@@ -29,6 +29,9 @@ jobs:
     - name: Package the extension
       run: npm run pack
 
+    - name: Install vsce
+      run: npm install -g vsce
+
     - name: Publish to Visual Studio Code Marketplace
       run: vsce  publish  ./fantasies-npm-analysis-${{ env.TAG }}.vsix
       env:
