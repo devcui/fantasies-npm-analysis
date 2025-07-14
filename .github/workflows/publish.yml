@@ -3,7 +3,7 @@ name: Publish VS Code Extension
 on:
   push:
     tags:
-        - 'v*'
+      - 'v*'
 
 jobs:
   publish:
@@ -22,17 +22,13 @@ jobs:
     - name: Build the extension
       run: npm run build
 
-    - name: Get tag version
-      id: get_tag
-      run: echo "TAG=${GITHUB_REF##*/}" | sed 's/^v//' >> $GITHUB_ENV
+    - name: Install vsce
+      run: npm install -g vsce
 
     - name: Package the extension
       run: npm run pack
 
-    - name: Install vsce
-      run: npm install -g vsce
-
     - name: Publish to Visual Studio Code Marketplace
-      run: vsce  publish  ./fantasies-npm-analysis-${{ env.TAG }}.vsix
+      run: vsce publish ./fantasies-npm-analysis.vsix
       env:
         VSCE_PAT: ${{ secrets.VSCE_PAT }}

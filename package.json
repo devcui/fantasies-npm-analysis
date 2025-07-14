@@ -54,7 +54,7 @@
         "build": "tsup src/index.ts --dts --minify --external=vscode",
         "dev": "npm run build --watch --sourcemap",
         "prepublish": "npm run build",
-        "pack": "vsce package",
+        "pack": "vsce package  --out ./fantasies-npm-analysis.vsix",
         "typecheck": "tsc --noEmit",
         "release": "bumpp patch"
     },
